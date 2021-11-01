@@ -12,6 +12,12 @@ client = discord.client()
 @bot.event
 async def on_ready():
     print("Automaton online")
+    
+    
+@bot.event
+async def on_member_join():
+  with open("users.json", 'w') as write_file:
+    json.dumps(write_file)
 
 
 @bot.command()
