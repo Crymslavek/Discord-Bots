@@ -1,2 +1,4 @@
-# Discord-Bots
-I will be making bots for different servers. They will have servers attached to them already.
+# About
+This is the main spot that you will find the invite linke for bots that I make.
+# Narrator(bot)
+Invite Link: https://discord.com/api/oauth2/authorize?client_id=889285536123060245&permissions=517544070243&scope=bot
