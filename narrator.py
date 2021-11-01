@@ -71,4 +71,4 @@ def keep_alive():
     t = Thread(target=run)
     t.start(token)
 
-bot.run(ODg5Mjg1NTM2MTIzMDYwMjQ1.YUfBsQ.19FV6zAEAMIVspH4TucUnl0JdHs)
+bot.run("ODg5Mjg1NTM2MTIzMDYwMjQ1.YUfBsQ.19FV6zAEAMIVspH4TucUnl0JdHs")
