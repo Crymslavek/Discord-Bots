@@ -21,6 +21,12 @@ async def on_member_join():
 
 
 @bot.command()
+async def level(ctx):
+  with open("users.json", 'r') as read_file:
+    user_data = json.load(read_file)
+    ctx.send(user_data)
+    
+@bot.command()
 async def test(ctx):
     await ctx.send('This is a test')
 
