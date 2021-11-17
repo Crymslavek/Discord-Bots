@@ -1,31 +1,79 @@
 import discord
 import random
-from flask import flask
+import os
+import json
+from replit import db
 from discord.ext import commands
 from random import randint
+from flask import Flask
+from threading import Thread
+import sqlite3
+
+token = os.getenv("token")
+my_id = os.getenv("my_id")
+
+app = Flask('')
 
 
-bot = commands.bot(command_prefix=".")
-client = discord.client()
+@app.route('/')
+def home():
+    return "I'm alive"
 
+
+def run():
+    app.run(host='0.0.0.0', port=8080)
+
+
+bot = commands.Bot(command_prefix=".")
+client = discord.Client()
+m = {}
+
+os.system("ping -c 1 <https://Quest-Giver.FrostYoungblood.repl.co>")
 
 @bot.event
 async def on_ready():
-    print("Automaton online")
-    
-    
+  print("Automaton Online")
+
 @bot.event
-async def on_member_join():
-  with open("users.json", 'w') as write_file:
-    json.dumps(write_file)
+async def on_member_join(ctx):
+    with open("data.txt") as json_file:
+        Gold = json.load(json_file)
+
+    for user in Gold["Gold"]:
+        if user["id"] == ctx.author.id:
+            gold_num = user["Gold"]
+
+    await ctx.send(f"You have {gold_num} gold.")
+
+    with open("data.txt", "w") as outfile:
+        json.dump(Gold, outfile)
 
 
-@bot.command()
-async def level(ctx):
-  with open("users.json", 'r') as read_file:
-    user_data = json.load(read_file)
-    ctx.send(user_data)
-    
+@bot.event
+async def on_member():
+    with open("data.txt") as json_file:
+        Gold = json.load(json_file)
+
+    for user in Gold["Gold"]:
+        if user["id"] == user.id:
+            user["Gold"] += Gold
+
+    with open("data.txt", "w") as outfile:
+        json.dump(Gold, outfile)
+
+
+@bot.event
+async def on_member_join(ctx):
+    with open("data.txt") as json_file:
+        Gold = json.load(json_file)
+
+    for user in ctx.guild.member:
+        Gold.append({"id": user.id, "Gold": 0})
+
+    with open("data.txt", "w") as outfile:
+        json.dump(Gold, outfile)
+
+
 @bot.command()
 async def test(ctx):
     await ctx.send('This is a test')
@@ -33,7 +81,9 @@ async def test(ctx):
 
 @bot.command()
 async def invite(ctx):
-    ctx.send("https://discod.com/api/ouath2/autorize?client_id=889285536123060245&permissions=8&scope=bot")
+    ctx.send(
+        "https://discod.com/api/ouath2/autorize?client_id=889285536123060245&permissions=8&scope=bot"
+    )
 
 
 @bot.command()
@@ -77,4 +127,5 @@ def keep_alive():
     t = Thread(target=run)
     t.start(token)
 
-bot.run("ODg5Mjg1NTM2MTIzMDYwMjQ1.YUfBsQ.19FV6zAEAMIVspH4TucUnl0JdHs")
+
+bot.run(token)
